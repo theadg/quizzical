@@ -1,34 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React from "react"
+import Intro from "./Components/Intro"
+import Questions from "./Components/Questions"
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+    const [start, setStart] = React.useState(false)
+    const [questions, setQuestions] = React.useState()
+    function startGame() {
+        setStart()
+    }
+    // console.log("component rendered")
+    
+    React.useEffect(() => {
+        console.log("effect used")
+        fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+            .then(res => res.json())
+            .then(data => setQuestions(data))
+    }, [])
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+
+
+    if (questions){
+        var fuckingQuestions = (questions.results).map(item => {
+            return (
+                <Questions 
+                q = {item.question} 
+                correctAns = {item.correct_answer}
+                incorrectAns = {item.incorrect_answers}/>
+            )
+        })
+    }
+        
+
+    return (
+        <main>
+            {fuckingQuestions}
+           
+          
+        </main>
+    )
 }
+    //  {questionElements}
+//        <pre>{JSON.stringify(questions.results, null, 2)}</pre>
 
-export default App
+
+
+//  {start && <Intro onClick={startGame} />}
+//  <Questions />
+            // {fuckingQuestions}
