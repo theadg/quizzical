@@ -5,86 +5,151 @@
   padding: 0;
 }
 
-main{
-  /* height: 100vh; */
-  /* padding: 100p */
-  /* display: flex; */
-  /* flex-direction: column;
+main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.25em;
-  background-color: #F5F7FB; */
+  background-color: #f5f7fb;
 }
 
-
-h1{
+h1 {
   margin: 0 0 0.15em 0;
   padding: 0;
 }
 
-h4{
-  font-family: Inter,sans-serif;
+h4 {
+  font-family: Inter, sans-serif;
   font-weight: 300;
 }
 
-.intro--text-group{
+.intro--wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  justify-content: center;
+  width: 100%;
+  gap: 24px;
 }
 
-.intro--start-button{
+.intro--start-button {
   width: 193px;
   height: 52px;
-  background: #4D5B9E;
+  background: #4d5b9e;
   border-radius: 15px;
   border: none;
   color: white;
+  font-size: 16px;
 }
 
-.introo--left-blob{
+.introo--left-blob {
   position: absolute;
   bottom: 0;
   left: 0;
 }
 
-.introo--right-blob{
+.introo--right-blob {
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
   width: 40%;
 }
 
-
-.question--container{
-  
+.question--container {
+  z-index: 2;
+  text-align: left;
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  border-bottom: 0.5px solid #dbdef0;
+  gap: 12px;
+  padding: 12px 24px;
 }
 
-.question--question{
+.question--question {
   color: #293264;
   font-weight: bold;
   font-size: 1.25rem;
 }
 
-.question--answer-container{
+.question--answer-container {
   display: flex;
   gap: 1em;
 }
-.question--answer{
+
+.question--answer {
   border: none;
   background-color: transparent;
-  border: 1px solid #4D5B9E;
+  border: 1px solid #4d5b9e;
   border-radius: 10px;
   padding: 5px 10px;
-  font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: 600;
   font-size: 14px;
 }
 
-.question--answer:hover{
-  background-color: #D6DBF5;
+.question--answer:hover {
+  background-color: #d6dbf5;
   cursor: pointer;
 }
 
-.clicked{
+.clicked {
   color: white;
   background-color: blue;
 }
+
+.game--check-button {
+  background-color: #293264;
+  color: #d6dbf5;
+  border: none;
+  padding: 11px 21px;
+  border-radius: 10px;
+  width: auto;
+}
+
+.game--reset-button {
+  background-color: #d6dbf5;
+  color: #293264;
+  border: none;
+  padding: 11px 21px;
+  border-radius: 10px;
+  width: auto;
+}
+
+.game--check-button:hover,
+.game--reset-button:hover {
+  cursor: pointer;
+}
+
+.button--container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  gap: 10px;
+}
+
+.result--text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  gap: 12px;
+}
+
+.result--text {
+  color: #293264;
+  font-weight: bold;
+  font-family: Inter;
+  font-size: 1em;
+}
+
+button:disabled{
+  opacity: 0.6;
+}
+
