@@ -2,60 +2,81 @@ import React from "react";
 import { decode } from "html-entities";
 import { useEffect } from "react";
 import { useState } from "react";
+import Answers from "./Answers";
 
 export default function Questions(props) {
-  const {incorrectAns} = props
+  const { correctAns, incorrectAns, checked, addScore, questionCheck } = props;
   const decodedQ = decode(props.q);
-  const correct = decode(props.correctAns);
-  const wrong = incorrectAns;
-  // const [testChoices, setTestChocices] = useState(incorrectAns.push(correct));
-  const [choices, setChoices] = React.useState([{}]);
-  const [testState, setTestState] = useState(false)
+  const [allAnswers, setAllAnswers] = useState(
+    shuffleArray([...incorrectAns, correctAns])
+  );
+  const [choices, setChoices] = React.useState(getChoices);
 
- 
   /* Randomize array in-place using Durstenfeld shuffle algorithm */
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-  }
- 
-
-  function checkAnswer(e) {
-    if (e.target.textContent === correct) {
-      console.log("Correct Answer!");
-    }
+    return array;
   }
 
-  useEffect(()=>{
-    wrong.push(correct);
-    shuffleArray(wrong);
-    setTestState(true);
-    console.log(wrong);
-  }, [])
+  function getChoices() {
+    const choicesArray = [];
+    allAnswers.map((answer) => {
+      choicesArray.push({
+        choice: answer,
+        clicked: false,
+        checked: false,
+      });
+    });
 
-  //recreate the choices by mapping over the array and making it an object
-    // const getChoices = wrong.map((x) => {
-    //   choices.push({ choice: x, checked: false });
-    // });
+    return choicesArray;
+  }
 
-  // getChoices;
-  // console.log(choices);
-
-  const wrongAnswersMapped = wrong.map((x) => {
+  const questionChoices = choices.map((x) => {
     return (
-      <button className="question--answer" onClick={checkAnswer}>
-        {decode(x)}
-      </button>
+      <Answers
+        className="question--answer"
+        handleClick={(e) => handleClick(e)}
+        answer={decode(x.choice)}
+        clicked={x.clicked}
+        check={checked}
+        correct={correctAns}
+        addScore={addScore}
+      />
     );
   });
 
-  //when you click a button, it stays there and dapat isa lang nakaclick na button
+  function handleClick(e) {
+    const choiceName = e.target.textContent;
+    setChoices((prevChoices) =>
+      prevChoices.map((item) => {
+        questionCheck();
+        return item.choice === choiceName
+          ? { ...item, clicked: true }
+          : { ...item, clicked: false };
+      })
+    );
+  }
+
+  function checkAns() {
+    const userAns = choices.find((choice) => choice.clicked);
+    if (userAns.choice === correctAns) {
+      addScore();
+    }
+  }
+
+  useEffect(() => {
+    if (checked) {
+      checkAns();
+    }
+  }, [checked]);
+
   return (
     <section className="question--container">
       <p className="question--question">{decodedQ}</p>
-      <div className="question--answer-container">{testState && wrongAnswersMapped}</div>
+      <div className="question--answer-container">{questionChoices}</div>
     </section>
   );
 }
