@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Answers(props) {
-  const { handleClick, clicked, check, correct, answer, addScore} = props;
- 
+  const { handleClick, clicked, check, correct, answer, addScore } = props;
+  const [stayColor, setStayColor] = useState(false);
+
+  useEffect(() => {
+    if (check) {
+      setStayColor(true);
+    }
+  }, [check]);
 
   //styling for click
   const styles = {
@@ -11,15 +17,15 @@ export default function Answers(props) {
   };
   //styling for checking ans
   const checkAnswer = correct === answer;
-React.useEffect(()=>{
-  if (checkAnswer && clicked || checkAnswer){
-    addScore
-    console.log(`${answer} TAMA SAGOT`)
-  } else if (check){
-    console.log(`${answer} MALI`);
-  }
-}, [check])
-// styling for checked answers
+  React.useEffect(() => {
+    if ((checkAnswer && clicked) || checkAnswer) {
+      addScore;
+      console.log(`${answer} TAMA SAGOT`);
+    } else if (check) {
+      console.log(`${answer} MALI`);
+    }
+  }, [check]);
+  // styling for checked answers
   const checkStyles = {
     //color
     backgroundColor:
@@ -44,7 +50,7 @@ React.useEffect(()=>{
     <>
       <button
         className="question--answer"
-        style={check ? checkStyles : styles}
+        style={stayColor ? checkStyles : styles}
         onClick={handleClick}
       >
         {props.answer}
